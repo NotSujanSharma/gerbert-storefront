@@ -49,26 +49,6 @@ const nextConfig = withAnalyzer(
           destination: "/:path*",
           permanent: true,
         },
-        {
-          source: "/ca/en",
-          destination: "/",
-          permanent: true,
-        },
-        {
-          source: "/ca/en/:path*",
-          destination: "/:path*",
-          permanent: true,
-        },
-        {
-          source: "/ca",
-          destination: "/",
-          permanent: true,
-        },
-        {
-          source: "/ca/:path*",
-          destination: "/:path*",
-          permanent: true,
-        },
       ];
     },
     // TODO: add redirects to footer CMS pages (instead of /pages/slug => /slug)

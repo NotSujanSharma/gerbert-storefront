@@ -6,9 +6,8 @@ import { DEFAULT_LOCALE, type SupportedLocale } from "@/regions/types";
 
 export const getStoreUrl = async () => {
   const locale = await getLocale();
-  const domain = `${(await headers()).get("x-forwarded-proto")}://${(
-    await headers()
-  ).get("x-forwarded-host")}`;
+  const headersList = await headers(); // Await headers() first
+  const domain = `${headersList.get("x-forwarded-proto")}://${headersList.get("x-forwarded-host")}`;
 
   return locale === DEFAULT_LOCALE
     ? domain
