@@ -1,0 +1,12 @@
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+node_modules
+
+**/generated.ts
+packages/codegen/schema.ts
+
+.cache
+.turbo
+
+apps/docs/pages/quickstart/storefront.mdx

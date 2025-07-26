@@ -1,0 +1,35 @@
+{
+  "name": "@nimara/infrastructure",
+  "version": "1.0.0",
+  "scripts": {
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+  },
+  "imports": {
+    "#root/*": "./src/*.ts"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "dependencies": {
+    "@saleor/auth-sdk": "1.0.2",
+    "@stripe/stripe-js": "3.5.0",
+    "buttercms": "2.1.4",
+    "libphonenumber-js": "1.12.9",
+    "pino": "9.7.0",
+    "stripe": "15.10.0",
+    "ts-invariant": "0.10.3"
+  },
+  "devDependencies": {
+    "@graphql-typed-document-node/core": "3.2.0",
+    "@nimara/codegen": "workspace:*",
+    "@nimara/config": "workspace:*",
+    "@nimara/domain": "workspace:*",
+    "eslint": "^8.57.0",
+    "eslint-config-custom": "workspace:*",
+    "graphql": "16.11.0",
+    "ts-essentials": "10.1.1",
+    "ts-toolbelt": "9.6.0",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.8.3"
+  }
+}

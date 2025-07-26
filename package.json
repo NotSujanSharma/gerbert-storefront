@@ -1,0 +1,61 @@
+{
+  "name": "nimara-ecommerce",
+  "license": "BSD-3-Clause",
+  "version": "1.0.0",
+  "author": {
+    "name": "Mirumee Labs",
+    "email": "hello@mirumee.com",
+    "url": "https://mirumee.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mirumee/nimara-ecommerce"
+  },
+  "private": true,
+  "packageManager": "pnpm@9.3.0",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "build": "dotenv -- turbo run build",
+    "build:storefront": "pnpm run build --filter=storefront",
+    "build:stripe": "pnpm run build --filter=stripe",
+    "build:docs": "pnpm run build --filter=docs",
+    "start": "dotenv -- turbo run start",
+    "start:storefront": "pnpm run start --filter=storefront",
+    "start:docs": "pnpm run start --filter=docs",
+    "codegen": "dotenv -- turbo run codegen",
+    "dev": "dotenv -- turbo run dev",
+    "dev:storefront": "pnpm run dev --filter=storefront",
+    "dev:stripe": "pnpm run dev --filter=stripe",
+    "dev:docs": "pnpm run dev --filter=docs",
+    "test": "dotenv -- turbo run test",
+    "test:watch": "dotenv -- turbo run test:watch",
+    "test:e2e": "dotenv -- turbo run test:e2e",
+    "prepare": "husky",
+    "format": "pnpm prettier --write '**/*.{js,ts,tsx,json,md}'",
+    "format:check": "pnpm prettier --check '**/*.{js,ts,tsx,json,md}'"
+  },
+  "devDependencies": {
+    "commitizen": "4.3.1",
+    "dotenv-cli": "8.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-custom": "workspace:*",
+    "husky": "9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.13",
+    "turbo": "2.5.4"
+  },
+  "resolutions": {
+    "graphql": "16.10.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog",
+      "disableScopeLowerCase": true,
+      "disableSubjectLowerCase": true,
+      "maxHeaderWidth": 150
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "NEXT_PUBLIC_STOREFRONT_URL",
+    "CMS_SERVICE",
+    "NEXT_PUBLIC_DEFAULT_CHANNEL",
+    "EDGE_CONFIG",
+    "NEXT_PUBLIC_SALEOR_API_URL",
+    "TEST_ENV_URL",
+    "USER_EMAIL",
+    "USER_PASSWORD",
+    "CONFIG_KEY",
+    "VERCEL_EDGE_CONFIG_ID",
+    "VERCEL_ACCESS_TOKEN",
+    "VERCEL_TEAM_ID",
+    "NEXT_PUBLIC_ENVIRONMENT"
+  ],
+  "globalPassThroughEnv": [
+    "AUTH_SECRET",
+    "AUTH_URL",
+    "LOG_LEVEL",
+    "SALEOR_APP_TOKEN",
+    "SENTRY_AUTH_TOKEN",
+    "SENTRY_DEBUG",
+    "SENTRY_DSN",
+    "SENTRY_ENVIRONMENT",
+    "SENTRY_ORG",
+    "SENTRY_PROJECT",
+    "STRIPE_SECRET_KEY",
+    "NEXT_PUBLIC_STRIPE_PUBLIC_KEY",
+    "NEXT_PUBLIC_PAYMENT_APP_ID"
+  ],
+  "ui": "stream",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^codegen", "^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "codegen": {
+      "dependsOn": ["^codegen"],
+      "outputs": ["./schema.ts", "./graphql/**"],
+      "inputs": ["../../**/*.graphql"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "lint:staged": {
+      "dependsOn": ["^lint:staged"]
+    },
+    "start": {
+      "dependsOn": ["^codegen", "^start"]
+    },
+    "test": {},
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    },
+    "test:e2e": {
+      "dependsOn": ["^test:e2e"],
+      "env": ["TEST_ENV_URL", "USER_EMAIL", "USER_PASSWORD"],
+      "cache": false
+    },
+    "test:all": {
+      "dependsOn": ["^test:e2e", "^test"]
+    },
+    "install": {
+      "dependsOn": ["^install"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

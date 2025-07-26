@@ -1,0 +1,16 @@
+query UserOrdersQuery(
+  $languageCode: LanguageCodeEnum!
+  $thumbnailSize: Int!
+  $thumbnailFormat: ThumbnailFormatEnum!
+) {
+  me {
+    id
+    orders(first: 100) {
+      edges {
+        node {
+          ...OrderFragment
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+fragment ProductDetailsFragment on Product {
+  ...ProductBaseFragment
+  media {
+    ...ProductMediaFragment
+  }
+  variants {
+    ...ProductVariantDetailsFragment
+  }
+  attributes {
+    attribute {
+      ...AttributeFragment
+    }
+    values {
+      ...AttributeValueFragment
+    }
+  }
+}

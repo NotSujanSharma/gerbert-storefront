@@ -1,0 +1,39 @@
+query SearchProductQuery(
+  $after: String
+  $before: String
+  $channel: String!
+  $filter: ProductFilterInput
+  $first: Int
+  $languageCode: LanguageCodeEnum!
+  $last: Int
+  $search: String
+  $sortBy: ProductOrder
+  $where: ProductWhereInput
+  $thumbnailSize: Int!
+  $thumbnailFormat: ThumbnailFormatEnum!
+) {
+  products(
+    after: $after
+    before: $before
+    channel: $channel
+    filter: $filter
+    first: $first
+    last: $last
+    search: $search
+    sortBy: $sortBy
+    where: $where
+  ) {
+    edges {
+      node {
+        ...SearchProductFragment
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+    totalCount
+  }
+}

@@ -1,0 +1,15 @@
+query CollectionDetailsQuery(
+  $slug: String
+  $channel: String!
+  $languageCode: LanguageCodeEnum!
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $thumbnailSize: Int!
+  $thumbnailFormat: ThumbnailFormatEnum!
+) {
+  collection(slug: $slug, channel: $channel) {
+    ...CollectionFragment
+  }
+}

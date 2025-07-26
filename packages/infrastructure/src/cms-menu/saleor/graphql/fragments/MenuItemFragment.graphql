@@ -1,0 +1,56 @@
+fragment MenuItem on MenuItem {
+  id
+  name
+  translation(languageCode: $languageCode) {
+    name
+  }
+  level
+  category {
+    id
+    slug
+    name
+    translation(languageCode: $languageCode) {
+      name
+      description
+    }
+    description
+    products(first: 10, channel: "default-channel") {
+      edges {
+        node {
+          attributes {
+            attribute {
+              name
+              translation(languageCode: $languageCode) {
+                name
+              }
+              slug
+            }
+          }
+          id
+        }
+      }
+    }
+  }
+  collection {
+    id
+    name
+    translation(languageCode: $languageCode) {
+      name
+      description
+    }
+    slug
+    description
+    backgroundImage {
+      url
+    }
+  }
+  page {
+    id
+    title
+    translation(languageCode: $languageCode) {
+      title
+    }
+    slug
+  }
+  url
+}

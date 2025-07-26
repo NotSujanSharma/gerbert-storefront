@@ -1,0 +1,16 @@
+fragment CartFragment on Checkout {
+  id
+  displayGrossPrices
+  subtotalPrice {
+    ...TaxedMoneyFragment
+  }
+  totalPrice {
+    ...TaxedMoneyFragment
+  }
+  lines {
+    ...CartLineFragment
+  }
+  problems {
+    ...CheckoutProblemsFragment
+  }
+}

@@ -1,0 +1,48 @@
+fragment SearchProductFragment on Product {
+  id
+  name
+  translation(languageCode: $languageCode) {
+    name
+  }
+  slug
+  thumbnail(size: $thumbnailSize, format: $thumbnailFormat) {
+    url
+    alt
+  }
+  variants {
+    pricing {
+      price {
+        gross {
+          amount
+        }
+      }
+    }
+  }
+  media {
+    url
+    alt
+  }
+  pricing {
+    priceRange {
+      start {
+        currency
+        gross {
+          amount
+        }
+        net {
+          amount
+        }
+      }
+      stop {
+        currency
+        gross {
+          amount
+        }
+        net {
+          amount
+        }
+      }
+    }
+  }
+  updatedAt
+}
