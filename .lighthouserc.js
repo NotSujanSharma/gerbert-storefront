@@ -1,6 +1,6 @@
 // A list of paths to check
 // To add a new path to test just add it to this list
-const pathsToTest = ["/gb", "/gb/search", "/us", "/us/search"];
+const pathsToTest = ["/gb", "/gb/search", "/us", "/us/search", "/ca", "/ca/search"];
 
 // A list of full URLs used to test against
 const urls = pathsToTest.map((path) =>

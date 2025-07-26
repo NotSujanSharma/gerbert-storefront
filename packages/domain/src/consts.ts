@@ -256,7 +256,14 @@ export const ALLOWED_COUNTRY_CODES = [
  */
 export type AllCountryCode = (typeof ALLOWED_COUNTRY_CODES)[number];
 
-export const ALL_LOCALES = ["en", "en-US", "en-GB", "ja-JP", "pl-PL"] as const;
+export const ALL_LOCALES = [
+  "en",
+  "en-US",
+  "en-GB",
+  "ja-JP",
+  "pl-PL",
+  "en-CA",
+] as const;
 
 /**
  * List of all available IETF BCP 47 language tags. Feel free to add more as needed.

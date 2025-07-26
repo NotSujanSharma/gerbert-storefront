@@ -13,6 +13,7 @@ export const LOCALE_CHANNEL_MAP: Record<
 > = {
   "en-GB": "gb",
   "en-US": "us",
+  "en-CA": "ca",
 };
 
 export const LANGUAGES = {
@@ -28,13 +29,19 @@ export const LANGUAGES = {
     code: "EN_US",
     locale: "en-US",
   },
+  CA: {
+    id: "ca",
+    name: "English (Canada)",
+    code: "EN_CA",
+    locale: "en-CA",
+  },
 } satisfies Record<Uppercase<LanguageId>, Language>;
 
 export const MARKETS = {
   GB: {
     id: "gb",
     name: "United Kingdom",
-    channel: "channel-uk",
+    channel: "uk",
     currency: "GBP",
     continent: "Europe",
     countryCode: "GB",
@@ -50,5 +57,15 @@ export const MARKETS = {
     countryCode: "US",
     defaultLanguage: LANGUAGES.US,
     supportedLanguages: [LANGUAGES.US],
+  },
+  CA: {
+    id: "ca",
+    name: "Canada",
+    channel: "ca",
+    currency: "CAD",
+    continent: "North America",
+    countryCode: "CA",
+    defaultLanguage: LANGUAGES.CA,
+    supportedLanguages: [LANGUAGES.CA],
   },
 } satisfies Record<Uppercase<MarketId>, Market>;

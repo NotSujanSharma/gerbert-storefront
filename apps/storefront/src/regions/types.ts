@@ -10,7 +10,7 @@ import {
 /**
  * Defines available languages in the App.
  */
-export const SUPPORTED_LANGUAGES = ["us", "gb"] as const;
+export const SUPPORTED_LANGUAGES = ["us", "gb", "ca"] as const;
 export type LanguageId = (typeof SUPPORTED_LANGUAGES)[number];
 
 /**
@@ -19,6 +19,7 @@ export type LanguageId = (typeof SUPPORTED_LANGUAGES)[number];
 export const SUPPORTED_LOCALES = [
   "en-GB",
   "en-US",
+  "en-CA",
 ] as const satisfies AllLocale[];
 export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
 export const DEFAULT_LOCALE = "en-US" as const satisfies AllLocale;
@@ -26,7 +27,7 @@ export const DEFAULT_LOCALE = "en-US" as const satisfies AllLocale;
 /**
  * Defines available markets in the App.
  */
-export const SUPPORTED_MARKETS = ["gb", "us"] as const;
+export const SUPPORTED_MARKETS = ["gb", "us", "ca"] as const;
 export type MarketId = (typeof SUPPORTED_MARKETS)[number];
 
 /**
@@ -35,6 +36,7 @@ export type MarketId = (typeof SUPPORTED_MARKETS)[number];
 export const SUPPORTED_CURRENCIES = [
   "USD",
   "GBP",
+  "CAD",
 ] as const satisfies AllCurrency[];
 export type SupportedCurrency = (typeof SUPPORTED_CURRENCIES)[number];
 

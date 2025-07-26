@@ -12,7 +12,6 @@ import { Navigation } from "./_components/navigation";
 export default async function Layout({ children }: { children: ReactNode }) {
   const region = await getCurrentRegion();
   const locale = await getStoreLocale();
-
   const resultMenu = await cmsMenuService.menuGet({
     channel: region.market.channel,
     languageCode: region.language.code,
