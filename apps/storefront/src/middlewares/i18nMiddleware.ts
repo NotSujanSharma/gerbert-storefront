@@ -14,11 +14,25 @@ import { storefrontLogger } from "@/services/logging";
 
 import type { CustomMiddleware } from "./chain";
 
+// Vercel geolocation types
+interface VercelGeoLocation {
+  city?: string;
+  country?: string;
+  latitude?: string;
+  longitude?: string;
+  region?: string;
+}
+
+interface NextRequestWithGeo extends NextRequest {
+  geo?: VercelGeoLocation;
+}
+
 function getLocaleFromGeolocation(
   request: NextRequest,
 ): SupportedLocale | null {
   // Try to get country from Vercel's geolocation data
-  const countryFromGeo = request.geo?.country;
+  const requestWithGeo = request as NextRequestWithGeo;
+  const countryFromGeo = requestWithGeo.geo?.country;
   const countryFromHeader = request.headers.get("x-vercel-ip-country");
 
   const country = countryFromGeo || countryFromHeader;
@@ -66,11 +80,14 @@ function getLocale(request: NextRequest): SupportedLocale {
   const localeFromGeo = getLocaleFromGeolocation(request);
 
   if (localeFromGeo) {
+    const requestWithGeo = request as NextRequestWithGeo;
+
     storefrontLogger.debug(
       `Using geolocation-based locale detection: ${localeFromGeo}`,
       {
         country:
-          request.geo?.country || request.headers.get("x-vercel-ip-country"),
+          requestWithGeo.geo?.country ||
+          request.headers.get("x-vercel-ip-country"),
       },
     );
 
