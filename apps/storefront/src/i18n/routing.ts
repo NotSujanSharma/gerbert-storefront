@@ -10,10 +10,17 @@ import {
 export const localePrefixes = {
   "en-GB": "/gb",
   "en-CA": "/ca",
-} as const satisfies Record<
-  Exclude<SupportedLocale, typeof DEFAULT_LOCALE>,
-  string
->;
+  "en-US": "/us",
+} as const;
+
+//   export const localePrefixes = {
+//   "en-GB": "/gb",
+//   "en-CA": "/ca",
+
+// } as const satisfies Record<
+//   Exclude<SupportedLocale, typeof DEFAULT_LOCALE>,
+//   string
+//     >;
 
 export const routing = defineRouting({
   locales: SUPPORTED_LOCALES,
