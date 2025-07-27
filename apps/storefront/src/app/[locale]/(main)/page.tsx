@@ -63,7 +63,6 @@ export default async function Page() {
     },
   });
 
-  // console.log(`resultPage `, resultPage);
 
   return (
     <section className="grid w-full content-start">

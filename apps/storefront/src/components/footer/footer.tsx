@@ -42,7 +42,6 @@ export const Footer = async () => {
       },
     },
   });
-  // console.log(`resultCategories.data?.menu.items`, resultCategories.data?.menu.items);
 
   return (
     <footer className="bg-muted text-primary mt-8 text-sm">
