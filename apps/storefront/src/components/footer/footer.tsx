@@ -1,14 +1,12 @@
-import Image from "next/image";
-import { getTranslations } from "next-intl/server";
-
 import BrandLogo from "@/assets/logo.png";
 import { CACHE_TTL } from "@/config";
 import { Link } from "@/i18n/routing";
 import { paths } from "@/lib/paths";
+import { getStoreLocale } from "@/lib/server";
 import { getCurrentRegion } from "@/regions/server";
 import { cmsMenuService } from "@/services/cms";
-import { getStoreLocale } from "@/lib/server";
-
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
 
 export const Footer = async () => {
   const locale = await getStoreLocale();
@@ -45,7 +43,6 @@ export const Footer = async () => {
 
   return (
     <footer className="bg-muted text-primary mt-8 text-sm">
-
       <div className="container">
         <div className="flex flex-wrap justify-between gap-8 py-8">
           <div className="grid w-full grid-cols-2 grid-rows-[max-content,max-content] place-items-start justify-start gap-6 md:grid-cols-3">
@@ -69,12 +66,12 @@ export const Footer = async () => {
               </span>
               <div className="flex flex-col gap-4">
                  <Link
-                                          href={"/"}
-                                          className="text-inherit no-underline hover:underline"
-                                          prefetch={false}
-                                          legacyBehavior
-                                          passHref
-                                        >abc</Link>
+                    href="/"
+                    className="text-inherit no-underline hover:underline"
+                    prefetch={false}
+                    legacyBehavior
+                    passHref
+                  >abc</Link>
                 {resultCategories.data?.menu.items.map((item) => (
                   <span key={item.id} className="inline">
                     <Link
@@ -86,7 +83,6 @@ export const Footer = async () => {
                     >
                       {item.label}
                     </Link>
-
                   </span>
                 ))}
               </div>
