@@ -4,7 +4,7 @@ import { defineRouting } from "next-intl/routing";
 import {
   DEFAULT_LOCALE,
   SUPPORTED_LOCALES,
-  type SupportedLocale,
+  // type SupportedLocale,
 } from "@/regions/types";
 
 export const localePrefixes = {
