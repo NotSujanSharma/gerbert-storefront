@@ -11,6 +11,7 @@ import { clientEnvs } from "@/envs/client";
 import { Link } from "@/i18n/routing";
 import { getCheckoutId } from "@/lib/actions/cart";
 import { paths } from "@/lib/paths";
+import { getStoreLocale } from "@/lib/server";
 import { getCurrentRegion } from "@/regions/server";
 import { cartService } from "@/services/cart";
 import { cmsMenuService } from "@/services/cms";
@@ -26,6 +27,7 @@ import { ShoppingBagIconWithCount } from "./shopping-bag-icon-with-count";
 
 export const Header = async () => {
   const accessToken = await getAccessToken();
+  const locale = await getStoreLocale();
   const [resultUserGet, region, t] = await Promise.all([
     userService.userGet(accessToken),
     getCurrentRegion(),
@@ -35,6 +37,7 @@ export const Header = async () => {
   const resultMenu = await cmsMenuService.menuGet({
     channel: region.market.channel,
     languageCode: region.language.code,
+    locale,
     slug: "navbar",
     options: {
       next: {
@@ -84,7 +87,7 @@ export const Header = async () => {
           <div className="flex items-center justify-start">
             <Logo />
           </div>
-          
+
           <div className="hidden md:block">
             <SearchForm />
           </div>
