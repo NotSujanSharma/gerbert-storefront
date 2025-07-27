@@ -30,29 +30,56 @@ interface NextRequestWithGeo extends NextRequest {
 function getLocaleFromGeolocation(
   request: NextRequest,
 ): SupportedLocale | null {
+  console.log("🌍 [DEBUG] getLocaleFromGeolocation called");
+  
   // Try to get country from Vercel's geolocation data
   const requestWithGeo = request as NextRequestWithGeo;
   const countryFromGeo = requestWithGeo.geo?.country;
   const countryFromHeader = request.headers.get("x-vercel-ip-country");
 
+  console.log("🌍 [DEBUG] Geolocation data:", {
+    "request.geo": requestWithGeo.geo,
+    "countryFromGeo": countryFromGeo,
+    "countryFromHeader": countryFromHeader,
+    "x-vercel-ip-country header": request.headers.get("x-vercel-ip-country"),
+    "all headers": Object.fromEntries(request.headers.entries())
+  });
+
   const country = countryFromGeo || countryFromHeader;
+  
+  console.log("🌍 [DEBUG] Final country detected:", country);
 
   if (!country) {
+    console.log("🌍 [DEBUG] No country detected, returning null");
     return null;
   }
 
   // Map country codes to locales
-  switch (country.toUpperCase()) {
+  const upperCountry = country.toUpperCase();
+  console.log("🌍 [DEBUG] Country code (uppercase):", upperCountry);
+  
+  let locale: SupportedLocale;
+  switch (upperCountry) {
     case "CA":
-      return "en-CA";
+      locale = "en-CA";
+      console.log("🌍 [DEBUG] Canada detected, setting locale to en-CA");
+      break;
     case "GB":
-      return "en-GB";
+      locale = "en-GB";
+      console.log("🌍 [DEBUG] UK detected, setting locale to en-GB");
+      break;
     case "US":
-      return "en-US";
+      locale = "en-US";
+      console.log("🌍 [DEBUG] US detected, setting locale to en-US");
+      break;
     default:
-      // All other countries fallback to default US locale
-      return DEFAULT_LOCALE;
+      locale = DEFAULT_LOCALE;
+      console.log("🌍 [DEBUG] Other country detected, using default locale:", DEFAULT_LOCALE);
+      break;
   }
+  
+  console.log("🌍 [DEBUG] Returning locale:", locale);
+  return locale;
 }
 
 function getLocaleFromBrowser(request: NextRequest): SupportedLocale {
@@ -76,11 +103,17 @@ function getLocaleFromBrowser(request: NextRequest): SupportedLocale {
 }
 
 function getLocale(request: NextRequest): SupportedLocale {
+  console.log("🎯 [DEBUG] getLocale called for URL:", request.url);
+  
   // First try geolocation-based detection
   const localeFromGeo = getLocaleFromGeolocation(request);
+  
+  console.log("🎯 [DEBUG] Result from geolocation detection:", localeFromGeo);
 
   if (localeFromGeo) {
     const requestWithGeo = request as NextRequestWithGeo;
+
+    console.log("🎯 [DEBUG] Using geolocation-based locale:", localeFromGeo);
 
     storefrontLogger.debug(
       `Using geolocation-based locale detection: ${localeFromGeo}`,
@@ -95,11 +128,16 @@ function getLocale(request: NextRequest): SupportedLocale {
   }
 
   // Fallback to browser language detection
+  console.log("🎯 [DEBUG] Geolocation failed, falling back to browser language detection");
+  
   storefrontLogger.debug(
     "Geolocation data unavailable, falling back to browser language detection",
   );
 
-  return getLocaleFromBrowser(request);
+  const browserLocale = getLocaleFromBrowser(request);
+  console.log("🎯 [DEBUG] Browser locale result:", browserLocale);
+  
+  return browserLocale;
 }
 
 export function i18nMiddleware(next: CustomMiddleware): CustomMiddleware {
@@ -108,6 +146,11 @@ export function i18nMiddleware(next: CustomMiddleware): CustomMiddleware {
     event: NextFetchEvent,
     prevResponse: NextResponse,
   ) => {
+    console.log("🔥 [DEBUG] i18nMiddleware called");
+    console.log("🔥 [DEBUG] Request URL:", request.url);
+    console.log("🔥 [DEBUG] Request method:", request.method);
+    console.log("🔥 [DEBUG] User agent:", request.headers.get("user-agent"));
+    
     const isRequestPrefetch = request.headers.get("x-nextjs-prefetch") === "1";
     const isRequestFromBot = request.headers
       .get("user-agent")
@@ -117,8 +160,16 @@ export function i18nMiddleware(next: CustomMiddleware): CustomMiddleware {
       request.method === "OPTIONS" ||
       request.headers.get("x-middleware-preflight") === "1";
 
+    console.log("🔥 [DEBUG] Request checks:", {
+      isRequestPrefetch,
+      isRequestFromBot,
+      isOptionsRequest
+    });
+
     if (isRequestPrefetch || isRequestFromBot || isOptionsRequest) {
       // INFO: Skip i18n middleware for prefetch requests, bot requests, and OPTIONS requests
+      console.log("🔥 [DEBUG] Skipping i18n middleware for this request type");
+      
       storefrontLogger.debug(
         `Skipping i18n middleware for request: ${request.method} ${request.url}`,
         {
@@ -132,15 +183,24 @@ export function i18nMiddleware(next: CustomMiddleware): CustomMiddleware {
     }
 
     const pathname = request.nextUrl.pathname;
+    
+    console.log("🚀 [DEBUG] i18nMiddleware - Processing pathname:", pathname);
+    console.log("🚀 [DEBUG] i18nMiddleware - Available locale prefixes:", localePrefixes);
 
     const localePrefix = Object.values(localePrefixes).find(
       (localePrefix) =>
         pathname.startsWith(localePrefix) || pathname === localePrefix,
     );
+    
+    console.log("🚀 [DEBUG] i18nMiddleware - Detected locale prefix:", localePrefix);
 
     const isLocalePrefixedPathname = !!localePrefix;
 
     let localeFromRequest = getLocale(request);
+    
+    console.log("🚀 [DEBUG] i18nMiddleware - Initial locale from request:", localeFromRequest);
+    console.log("🚀 [DEBUG] i18nMiddleware - Current pathname:", pathname);
+    console.log("🚀 [DEBUG] i18nMiddleware - Is locale prefixed pathname:", isLocalePrefixedPathname);
 
     const handleI18nRouting = createIntlMiddleware(routing);
     const response = handleI18nRouting(request);
@@ -156,7 +216,13 @@ export function i18nMiddleware(next: CustomMiddleware): CustomMiddleware {
               key as Exclude<SupportedLocale, typeof DEFAULT_LOCALE>
             ] === localePrefix,
         ) as SupportedLocale) ?? DEFAULT_LOCALE;
+        
+      console.log("🚀 [DEBUG] i18nMiddleware - Locale from URL prefix:", localeFromRequest);
     }
+    
+    console.log("🚀 [DEBUG] i18nMiddleware - Final locale:", localeFromRequest);
+    console.log("🚀 [DEBUG] i18nMiddleware - Response status:", response.status);
+    console.log("🚀 [DEBUG] i18nMiddleware - Response headers:", Object.fromEntries(response.headers.entries()));
 
     // INFO: Store the locale in the cookie to know if the locale has changed between requests
     response.cookies.set(COOKIE_KEY.locale, localeFromRequest, {
