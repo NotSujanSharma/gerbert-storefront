@@ -169,6 +169,138 @@ describe("i18nMiddleware", () => {
     },
   );
 
+  describe("redirect behavior", () => {
+    it("should redirect Canadian users from root path to /ca using geolocation", async () => {
+      const initialRequest = createRequestWithGeo(
+        "https://demo.nimara.store/",
+        "CA",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      expect(resp?.status).toBe(307); // Temporary redirect
+      expect(resp?.headers.get("location")).toBe(
+        "https://demo.nimara.store/ca",
+      );
+    });
+
+    it("should redirect UK users from root path to /gb using geolocation", async () => {
+      const initialRequest = createRequestWithGeo(
+        "https://demo.nimara.store/",
+        "GB",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      expect(resp?.status).toBe(307); // Temporary redirect
+      expect(resp?.headers.get("location")).toBe(
+        "https://demo.nimara.store/gb",
+      );
+    });
+
+    it("should NOT redirect US users from root path (default locale)", async () => {
+      const initialRequest = createRequestWithGeo(
+        "https://demo.nimara.store/",
+        "US",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      expect(resp?.status).toBe(200); // No redirect
+      expect(resp?.headers.get("location")).toBeNull();
+    });
+
+    it("should redirect users with en-CA cookie from root path to /ca", async () => {
+      const initialRequest = new NextRequest(
+        new Request("https://demo.nimara.store/"),
+      );
+      const initialResponse = new NextResponse();
+
+      initialRequest.cookies.set(COOKIE_KEY.locale, "en-CA");
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      expect(resp?.status).toBe(307); // Temporary redirect
+      expect(resp?.headers.get("location")).toBe(
+        "https://demo.nimara.store/ca",
+      );
+    });
+
+    it("should redirect users with en-GB cookie from root path to /gb", async () => {
+      const initialRequest = new NextRequest(
+        new Request("https://demo.nimara.store/"),
+      );
+      const initialResponse = new NextResponse();
+
+      initialRequest.cookies.set(COOKIE_KEY.locale, "en-GB");
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      expect(resp?.status).toBe(307); // Temporary redirect
+      expect(resp?.headers.get("location")).toBe(
+        "https://demo.nimara.store/gb",
+      );
+    });
+
+    it("should NOT redirect users with en-US cookie from root path", async () => {
+      const initialRequest = new NextRequest(
+        new Request("https://demo.nimara.store/"),
+      );
+      const initialResponse = new NextResponse();
+
+      initialRequest.cookies.set(COOKIE_KEY.locale, "en-US");
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      expect(resp?.status).toBe(200); // No redirect
+      expect(resp?.headers.get("location")).toBeNull();
+    });
+
+    it("should NOT redirect from locale-prefixed paths", async () => {
+      const initialRequest = createRequestWithGeo(
+        "https://demo.nimara.store/gb/products/test-product",
+        "CA", // Canadian user on GB path should not be redirected
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      expect(resp?.status).toBe(200); // No redirect
+      expect(resp?.headers.get("location")).toBeNull();
+    });
+  });
+
   describe("geolocation-based locale detection", () => {
     it("should set en-CA locale for Canadian visitors using request.geo.country", async () => {
       const initialRequest = createRequestWithGeo(
