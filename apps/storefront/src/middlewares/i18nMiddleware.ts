@@ -1,6 +1,10 @@
 import { match } from "@formatjs/intl-localematcher";
 import Negotiator from "negotiator";
-import type { NextFetchEvent, NextRequest, NextResponse } from "next/server";
+import {
+  type NextFetchEvent,
+  type NextRequest,
+  NextResponse,
+} from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 
 import { COOKIE_KEY, COOKIE_MAX_AGE } from "@/config";
@@ -211,6 +215,53 @@ export function i18nMiddleware(next: CustomMiddleware): CustomMiddleware {
     );
 
     const isLocalePrefixedPathname = !!localePrefix;
+
+    // Check if user is visiting root path and needs to be redirected
+    if (pathname === "/") {
+      console.log("🚀 [DEBUG] User visiting root path, checking for redirect");
+
+      // First check existing cookie for preferred locale
+      const localeFromCookie = request.cookies.get(COOKIE_KEY.locale)?.value as
+        | SupportedLocale
+        | undefined;
+
+      console.log("🚀 [DEBUG] Locale from cookie:", localeFromCookie);
+
+      // Get locale from geolocation or browser detection
+      const localeFromRequest = getLocale(request);
+
+      console.log("🚀 [DEBUG] Locale from request:", localeFromRequest);
+
+      // Determine which locale to use (cookie takes precedence if it exists)
+      const targetLocale = localeFromCookie || localeFromRequest;
+
+      console.log("🚀 [DEBUG] Target locale:", targetLocale);
+
+      // Redirect to locale-specific path if not default locale
+      if (targetLocale !== DEFAULT_LOCALE) {
+        const targetPrefix =
+          localePrefixes[
+            targetLocale as Exclude<SupportedLocale, typeof DEFAULT_LOCALE>
+          ];
+
+        if (targetPrefix) {
+          const redirectUrl = new URL(targetPrefix, request.url);
+
+          console.log("🚀 [DEBUG] Redirecting to:", redirectUrl.toString());
+
+          storefrontLogger.debug(
+            `Redirecting user from root path to locale-specific path: ${targetLocale}`,
+            {
+              requestUrl: request.url,
+              targetLocale,
+              redirectUrl: redirectUrl.toString(),
+            },
+          );
+
+          return NextResponse.redirect(redirectUrl, 307); // Temporary redirect
+        }
+      }
+    }
 
     let localeFromRequest = getLocale(request);
 
