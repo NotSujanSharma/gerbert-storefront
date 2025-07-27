@@ -66,13 +66,6 @@ export const Footer = async () => {
                 {t("footer.our-products")}
               </span>
               <div className="flex flex-col gap-4">
-                 <Link
-                    href="/"
-                    className="text-inherit no-underline hover:underline"
-                    prefetch={false}
-                    legacyBehavior
-                    passHref
-                  >abc</Link>
                 {resultCategories.data?.menu.items.map((item) => (
                   <span key={item.id} className="inline">
                     <Link
