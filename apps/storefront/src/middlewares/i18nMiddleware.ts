@@ -14,7 +14,34 @@ import { storefrontLogger } from "@/services/logging";
 
 import type { CustomMiddleware } from "./chain";
 
-function getLocale(request: NextRequest): SupportedLocale {
+function getLocaleFromGeolocation(
+  request: NextRequest,
+): SupportedLocale | null {
+  // Try to get country from Vercel's geolocation data
+  const countryFromGeo = request.geo?.country;
+  const countryFromHeader = request.headers.get("x-vercel-ip-country");
+
+  const country = countryFromGeo || countryFromHeader;
+
+  if (!country) {
+    return null;
+  }
+
+  // Map country codes to locales
+  switch (country.toUpperCase()) {
+    case "CA":
+      return "en-CA";
+    case "GB":
+      return "en-GB";
+    case "US":
+      return "en-US";
+    default:
+      // All other countries fallback to default US locale
+      return DEFAULT_LOCALE;
+  }
+}
+
+function getLocaleFromBrowser(request: NextRequest): SupportedLocale {
   const languages = new Negotiator({
     headers: {
       "accept-language": request.headers.get("accept-language") || "",
@@ -32,6 +59,30 @@ function getLocale(request: NextRequest): SupportedLocale {
   );
 
   return DEFAULT_LOCALE;
+}
+
+function getLocale(request: NextRequest): SupportedLocale {
+  // First try geolocation-based detection
+  const localeFromGeo = getLocaleFromGeolocation(request);
+
+  if (localeFromGeo) {
+    storefrontLogger.debug(
+      `Using geolocation-based locale detection: ${localeFromGeo}`,
+      {
+        country:
+          request.geo?.country || request.headers.get("x-vercel-ip-country"),
+      },
+    );
+
+    return localeFromGeo;
+  }
+
+  // Fallback to browser language detection
+  storefrontLogger.debug(
+    "Geolocation data unavailable, falling back to browser language detection",
+  );
+
+  return getLocaleFromBrowser(request);
 }
 
 export function i18nMiddleware(next: CustomMiddleware): CustomMiddleware {
