@@ -84,6 +84,7 @@ export const Header = async () => {
           <div className="flex items-center justify-start">
             <Logo />
           </div>
+          
           <div className="hidden md:block">
             <SearchForm />
           </div>

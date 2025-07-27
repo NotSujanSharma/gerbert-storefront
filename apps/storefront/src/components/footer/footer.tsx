@@ -7,8 +7,11 @@ import { Link } from "@/i18n/routing";
 import { paths } from "@/lib/paths";
 import { getCurrentRegion } from "@/regions/server";
 import { cmsMenuService } from "@/services/cms";
+import { getStoreLocale } from "@/lib/server";
+
 
 export const Footer = async () => {
+  const locale = await getStoreLocale();
   const [region, t] = await Promise.all([
     getCurrentRegion(),
     getTranslations(),
@@ -17,6 +20,7 @@ export const Footer = async () => {
   const resultMenu = await cmsMenuService.menuGet({
     channel: region.market.channel,
     languageCode: region.language.code,
+    locale,
     slug: "footer",
     options: {
       next: {
@@ -29,6 +33,7 @@ export const Footer = async () => {
   const resultCategories = await cmsMenuService.menuGet({
     channel: region.market.channel,
     languageCode: region.language.code,
+    locale,
     slug: "navbar",
     options: {
       next: {
@@ -37,9 +42,11 @@ export const Footer = async () => {
       },
     },
   });
+  // console.log(`resultCategories.data?.menu.items`, resultCategories.data?.menu.items);
 
   return (
     <footer className="bg-muted text-primary mt-8 text-sm">
+
       <div className="container">
         <div className="flex flex-wrap justify-between gap-8 py-8">
           <div className="grid w-full grid-cols-2 grid-rows-[max-content,max-content] place-items-start justify-start gap-6 md:grid-cols-3">
@@ -62,15 +69,25 @@ export const Footer = async () => {
                 {t("footer.our-products")}
               </span>
               <div className="flex flex-col gap-4">
+                 <Link
+                                          href={"/"}
+                                          className="text-inherit no-underline hover:underline"
+                                          prefetch={false}
+                                          legacyBehavior
+                                          passHref
+                                        >abc</Link>
                 {resultCategories.data?.menu.items.map((item) => (
                   <span key={item.id} className="inline">
                     <Link
                       href={item.url}
                       className="hover:underline"
                       prefetch={false}
+                      legacyBehavior
+                      passHref
                     >
                       {item.label}
                     </Link>
+
                   </span>
                 ))}
               </div>
