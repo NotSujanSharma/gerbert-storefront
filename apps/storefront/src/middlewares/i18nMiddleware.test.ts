@@ -12,6 +12,35 @@ describe("i18nMiddleware", () => {
     response;
   const mockedFetchEvent = {} as NextFetchEvent;
 
+  // Helper function to create NextRequest with geolocation data
+  const createRequestWithGeo = (url: string, country?: string) => {
+    const request = new NextRequest(new Request(url));
+
+    if (country) {
+      // Mock geo property
+      Object.defineProperty(request, "geo", {
+        value: { country },
+        writable: true,
+        configurable: true,
+      });
+    }
+
+    return request;
+  };
+
+  // Helper function to create NextRequest with x-vercel-ip-country header
+  const createRequestWithCountryHeader = (url: string, country: string) => {
+    const request = new NextRequest(
+      new Request(url, {
+        headers: {
+          "x-vercel-ip-country": country,
+        },
+      }),
+    );
+
+    return request;
+  };
+
   it("set the default locale when there's no prefix and locale cookie set", async () => {
     const initialRequest = new NextRequest(
       new Request("https://demo.nimara.store/products/test-product"),
@@ -139,4 +168,183 @@ describe("i18nMiddleware", () => {
       expect(cookiesHeader).not.includes(`${COOKIE_KEY.checkoutId};`);
     },
   );
+
+  describe("geolocation-based locale detection", () => {
+    it("should set en-CA locale for Canadian visitors using request.geo.country", async () => {
+      const initialRequest = createRequestWithGeo(
+        "https://demo.nimara.store/products/test-product",
+        "CA",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      const cookiesHeader = resp?.headers.get("set-cookie");
+
+      expect(resp?.status).toBe(200);
+      expect(cookiesHeader).includes(`${COOKIE_KEY.locale}=en-CA;`);
+    });
+
+    it("should set en-GB locale for UK visitors using request.geo.country", async () => {
+      const initialRequest = createRequestWithGeo(
+        "https://demo.nimara.store/products/test-product",
+        "GB",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      const cookiesHeader = resp?.headers.get("set-cookie");
+
+      expect(resp?.status).toBe(200);
+      expect(cookiesHeader).includes(`${COOKIE_KEY.locale}=en-GB;`);
+    });
+
+    it("should set en-US locale for US visitors using request.geo.country", async () => {
+      const initialRequest = createRequestWithGeo(
+        "https://demo.nimara.store/products/test-product",
+        "US",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      const cookiesHeader = resp?.headers.get("set-cookie");
+
+      expect(resp?.status).toBe(200);
+      expect(cookiesHeader).includes(`${COOKIE_KEY.locale}=en-US;`);
+    });
+
+    it("should fallback to en-US for other countries using request.geo.country", async () => {
+      const initialRequest = createRequestWithGeo(
+        "https://demo.nimara.store/products/test-product",
+        "FR",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      const cookiesHeader = resp?.headers.get("set-cookie");
+
+      expect(resp?.status).toBe(200);
+      expect(cookiesHeader).includes(`${COOKIE_KEY.locale}=en-US;`);
+    });
+
+    it("should set en-CA locale for Canadian visitors using x-vercel-ip-country header", async () => {
+      const initialRequest = createRequestWithCountryHeader(
+        "https://demo.nimara.store/products/test-product",
+        "CA",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      const cookiesHeader = resp?.headers.get("set-cookie");
+
+      expect(resp?.status).toBe(200);
+      expect(cookiesHeader).includes(`${COOKIE_KEY.locale}=en-CA;`);
+    });
+
+    it("should set en-GB locale for UK visitors using x-vercel-ip-country header", async () => {
+      const initialRequest = createRequestWithCountryHeader(
+        "https://demo.nimara.store/products/test-product",
+        "GB",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      const cookiesHeader = resp?.headers.get("set-cookie");
+
+      expect(resp?.status).toBe(200);
+      expect(cookiesHeader).includes(`${COOKIE_KEY.locale}=en-GB;`);
+    });
+
+    it("should prefer request.geo.country over x-vercel-ip-country header", async () => {
+      const initialRequest = createRequestWithGeo(
+        "https://demo.nimara.store/products/test-product",
+        "CA",
+      );
+      // Add conflicting header
+
+      initialRequest.headers.set("x-vercel-ip-country", "GB");
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      const cookiesHeader = resp?.headers.get("set-cookie");
+
+      expect(resp?.status).toBe(200);
+      expect(cookiesHeader).includes(`${COOKIE_KEY.locale}=en-CA;`);
+    });
+
+    it("should fallback to browser language detection when no geolocation data is available", async () => {
+      const initialRequest = new NextRequest(
+        new Request("https://demo.nimara.store/products/test-product", {
+          headers: {
+            "accept-language": "en-GB,en;q=0.9",
+          },
+        }),
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      const cookiesHeader = resp?.headers.get("set-cookie");
+
+      expect(resp?.status).toBe(200);
+      expect(cookiesHeader).includes(`${COOKIE_KEY.locale}=en-GB;`);
+    });
+
+    it("should handle case-insensitive country codes", async () => {
+      const initialRequest = createRequestWithCountryHeader(
+        "https://demo.nimara.store/products/test-product",
+        "ca",
+      );
+      const initialResponse = new NextResponse();
+
+      const resp = await i18nMiddleware(mockNextMiddleware)(
+        initialRequest,
+        mockedFetchEvent,
+        initialResponse,
+      );
+
+      const cookiesHeader = resp?.headers.get("set-cookie");
+
+      expect(resp?.status).toBe(200);
+      expect(cookiesHeader).includes(`${COOKIE_KEY.locale}=en-CA;`);
+    });
+  });
 });
