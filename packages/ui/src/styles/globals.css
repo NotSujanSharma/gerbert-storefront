@@ -50,3 +50,11 @@
     --ring: 240 4.9% 83.9%;
   }
 }
+
+@media screen and (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
