@@ -41,7 +41,7 @@ export const MARKETS = {
   GB: {
     id: "gb",
     name: "United Kingdom",
-    channel: "uk",
+    channel: "gb",
     currency: "GBP",
     continent: "Europe",
     countryCode: "GB",
