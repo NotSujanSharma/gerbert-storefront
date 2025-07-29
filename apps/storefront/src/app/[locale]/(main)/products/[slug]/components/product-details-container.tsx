@@ -254,6 +254,8 @@ export const ProductDetailsContainer = async (props: PageProps) => {
       ]
     : undefined;
 
+  console.log("Product crumbs", productCrumbs);
+
   return (
     <>
       <Breadcrumbs crumbs={productCrumbs} pageName={product.name} />

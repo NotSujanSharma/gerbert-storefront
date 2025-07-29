@@ -4,12 +4,12 @@ import React from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@nimara/ui/components/breadcrumb";
 
+import { Link } from "@/i18n/routing";
 import { paths } from "@/lib/paths";
 
 export const Breadcrumbs = async ({
@@ -26,9 +26,7 @@ export const Breadcrumbs = async ({
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href={paths.home.asPath()}>
-              {t("home")}
-            </BreadcrumbLink>
+            <Link href={paths.home.asPath()}>{t("home")}</Link>
           </BreadcrumbItem>
           {(pageName || crumbs) && <BreadcrumbSeparator />}
 
@@ -36,9 +34,7 @@ export const Breadcrumbs = async ({
             crumbs.map((crumb) => (
               <React.Fragment key={crumb.href}>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href={crumb.href}>
-                    {crumb.label}
-                  </BreadcrumbLink>
+                  <Link href={crumb.href}>{crumb.label}</Link>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
               </React.Fragment>
