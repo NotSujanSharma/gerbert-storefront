@@ -2,9 +2,9 @@
   "home": {
     "title": "Homepage",
     "home": "Home",
-    "description": "Nimara is a flexible headless storefront built on Saleor. Quick to deploy, easy to integrate, with an intuitive UI for management and customization.",
+    "description": "Gerbert is a flexible headless storefront built on Saleor. Quick to deploy, easy to integrate, with an intuitive UI for management and customization.",
     "homepage-preview": "Homepage preview",
-    "hero-banner-alt": "Nimara's hero banner"
+    "hero-banner-alt": "Gerbert's hero banner"
   },
   "locale": {
     "region": "Region",
@@ -47,7 +47,7 @@
     "open-search": "Open search",
     "search-label": "Search",
     "search-preview": "Search preview",
-    "all-products": "All Nimara’s best products"
+    "all-products": "All Gerbert’s best products"
   },
   "common": {
     "checkout": "Checkout",
@@ -89,7 +89,7 @@
     "delete": "Delete",
     "or": "or",
     "option-label": "Option {index}: {value}",
-    "logo": "Nimara's logo",
+    "logo": "Gerbert's logo",
     "pagination": "Pagination",
     "and": "and"
   },
@@ -327,14 +327,14 @@
     "back-to-cart": "Back to cart"
   },
   "auth": {
-    "first-time-on-nimara-store": "First time on Nimara Store?",
+    "first-time-on-nimara-store": "First time on Gerbert Store?",
     "create-account": "Create account",
     "i-forgot-my-password": "I forgot my password",
     "sign-in-error": "Sorry, wrong email or password. Please try again.",
     "sign-in": "Log in",
     "log-out": "Log out",
     "already-have-an-account": "Already have an account?",
-    "create-account-agreement": "By clicking “Create account” you agree with <termsOfUse>{termsOfUse}</termsOfUse> and <privacyPolicy>{privacyPolicy}</privacyPolicy> of Nimara Store",
+    "create-account-agreement": "By clicking “Create account” you agree with <termsOfUse>{termsOfUse}</termsOfUse> and <privacyPolicy>{privacyPolicy}</privacyPolicy> of Gerbert Store",
     "password-placeholder": "At least {minPasswordLength} signs, digits allowed",
     "confirm-password": "Confirm password",
     "email-placeholder": "e.g. john.doe@mail.com",
@@ -382,10 +382,10 @@
     "privacy-settings": "Privacy Settings",
     "delete-account": "Delete account",
     "delete-account-and-all-your-data-permanently": "Delete account and all your data permanently",
-    "delete-account-description": "After deleting your account, all your data and other account details will no longer be stored in Nimara Store.",
-    "delete-account-modal-description": "Once you delete the account all your saved and personal data will be no longer stored in Nimara Store.",
+    "delete-account-description": "After deleting your account, all your data and other account details will no longer be stored in Gerbert Store.",
+    "delete-account-modal-description": "Once you delete the account all your saved and personal data will be no longer stored in Gerbert Store.",
     "in-case-of-any-questions": "In case of any questions, <contactUs>{contactUs}</contactUs> or read our <privacyPolicy>{privacyPolicy}</privacyPolicy>.",
-    "i-want-permanently-delete-my-account-and-all-data-from-store": "I want to permanently delete my account and all data from Nimara Store",
+    "i-want-permanently-delete-my-account-and-all-data-from-store": "I want to permanently delete my account and all data from Gerbert Store",
     "confirm-account-deletion": "Confirm account deletion",
     "confirm-account-deletion-description": "You will receive an email message with a link confirming the deletion of your account.",
     "ok-i-will-check-my-email": "Ok, I’ll check my email",
@@ -409,7 +409,7 @@
   "footer": {
     "made-with": "Made with ❤\uFE0F by <link>Mirumee</link>",
     "open-source": "<link>An open-source storefront for everyone</link>",
-    "demo-version": "<link>This is the demo version of Nimara Store.</link>",
+    "demo-version": "<link>This is the demo version of Gerbert Store.</link>",
     "our-products": "Our products",
     "help": "Help"
   },
