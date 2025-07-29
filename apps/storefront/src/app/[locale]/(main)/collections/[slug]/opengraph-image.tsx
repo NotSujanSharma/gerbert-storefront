@@ -59,7 +59,7 @@ export default async function Image({
               "og-hp.png",
               clientEnvs.NEXT_PUBLIC_STOREFRONT_URL,
             ).toString()}
-            alt="Nimara's logo"
+            alt="Gerbert's logo"
             style={{
               maxWidth: "100%",
               maxHeight: "100%",
@@ -95,7 +95,7 @@ export default async function Image({
               "brand-logo-dark.svg",
               clientEnvs.NEXT_PUBLIC_STOREFRONT_URL,
             ).toString()}
-            alt="Nimara's logo"
+            alt="Gerbert's logo"
             style={{
               maxWidth: "100%",
               maxHeight: "100%",

@@ -32,6 +32,6 @@ export const COOKIE_MAX_AGE = {
 
 export const MIN_PASSWORD_LENGTH = 8;
 
-export const DEFAULT_PAGE_TITLE = "Nimara Storefront";
+export const DEFAULT_PAGE_TITLE = "Gerbert Storefront";
 
 export const CHANGE_EMAIL_TOKEN_VALIDITY_IN_HOURS = 72;

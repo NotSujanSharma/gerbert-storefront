@@ -2,7 +2,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="apps/docs/images/logo-light.svg">
     <source media="(prefers-color-scheme: light)" srcset="apps/docs/images/logo.svg">
-    <img width="200" alt="nimara logo" src="apps/docs/images/logo.svg">
+    <img width="200" alt="gerbert logo" src="apps/docs/images/logo.svg">
   </picture>
 </div>
 

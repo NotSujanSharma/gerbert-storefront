@@ -91,16 +91,16 @@ export const websiteToJsonLd = (): WithContext<WebSite> => {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Nimara Storefront",
-    url: "https://www.nimara.store.com",
+    name: "Gerbert Shop",
+    url: "https://www.gerbert.shop",
     mainEntityOfPage: {
       "@type": "WebPage",
-      url: "https://www.nimara.store.com",
+      url: "https://www.gerbert.shop",
     },
     publisher: {
       "@type": "Organization",
-      name: "Nimara Storefront",
-      url: "https://www.nimara.store.com",
+      name: "Gerbert Shop",
+      url: "https://www.gerbert.shop",
       image: {
         "@type": "ImageObject",
         url: "/brand-logo.svg",
