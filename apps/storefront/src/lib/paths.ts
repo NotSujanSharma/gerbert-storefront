@@ -118,8 +118,8 @@ export const paths = {
   notFound: url("/404"),
   signIn: url("/sign-in"),
   createAccount: url("/create-account"),
-  termsOfUse: url("/terms-of-use"),
-  privacyPolicy: url("/privacy-policy"),
+  termsOfUse: url("/pages/terms-of-use"),
+  privacyPolicy: url("/pages/privacy-policy"),
   resetPassword: url("/reset-password"),
   newPassword: url("/new-password"),
   account: {
