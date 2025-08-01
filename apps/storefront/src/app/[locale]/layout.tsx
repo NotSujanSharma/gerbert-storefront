@@ -3,6 +3,7 @@ import "@nimara/ui/styles/globals";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
@@ -40,6 +41,26 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale ?? "en"}>
+      <head>
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-H3PLSFB0XN"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'G-H3PLSFB0XN', {
+                      page_path: window.location.pathname,
+                    });
+                  `,
+          }}
+        />
+      </head>
       <body
         className={cn("min-h-[100dvh]", "flex flex-col", aspekta.className)}
       >
