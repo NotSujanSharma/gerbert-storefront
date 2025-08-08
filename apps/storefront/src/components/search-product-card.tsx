@@ -31,7 +31,13 @@ export const ProductPrice = ({ children }: PropsWithChildren) => {
 
 export const ProductThumbnail = ({ alt, ...props }: ImageProps) => (
   <div className="relative aspect-square overflow-hidden">
-    <Image alt={alt} fill className="object-cover object-top" {...props} />
+    <Image
+      alt={alt}
+      fill
+      className="object-cover object-top"
+      {...props}
+      unoptimized
+    />
   </div>
 );
 
