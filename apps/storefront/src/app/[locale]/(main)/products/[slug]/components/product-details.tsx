@@ -102,6 +102,7 @@ export const ProductDetails = ({
                 priority={i === 0}
                 sizes="(max-width: 960px) 100vw, 50vw"
                 className="h-auto w-full"
+                unoptimized
               />
             ))}
           </>
@@ -123,6 +124,7 @@ export const ProductDetails = ({
                 loading={i === 0 ? "eager" : "lazy"}
                 sizes="(max-width: 960px) 100vw, 1vw"
                 className="h-full w-full object-cover"
+                unoptimized
               />
             </CarouselItem>
           ))}
