@@ -1,6 +1,6 @@
 ## 🎥 Demo
 
-<https://github.com/user-attachments/assets/373825cf-a4fc-4123-86eb-639c4c40d96f>
+[View Demo](https://gerbert.shop/)
 
 ## 🚀 Features
 
