@@ -13,7 +13,7 @@ const schema = z.object({
     .string()
     .trim()
     .email()
-    .default("contact@mirumee.com"),
+    .default("sujansharma2060@gmail.com"),
   NEXT_PUBLIC_DEFAULT_PAGE_TITLE: z.string().trim().default(DEFAULT_PAGE_TITLE),
   NEXT_PUBLIC_SALEOR_API_URL: z.string().url().trim(),
   NEXT_PUBLIC_STOREFRONT_URL: z.string().url().trim(),

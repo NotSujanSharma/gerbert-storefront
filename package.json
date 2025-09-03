@@ -1,15 +1,15 @@
 {
-  "name": "nimara-ecommerce",
+  "name": "gerbert-ecommerce",
   "license": "BSD-3-Clause",
   "version": "1.0.0",
   "author": {
-    "name": "Mirumee Labs",
-    "email": "hello@mirumee.com",
-    "url": "https://mirumee.com/"
+    "name": "Sujan Sharma",
+    "email": "sujansharma2060@gmail.com",
+    "url": "https://sujan.brokenai.ca/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mirumee/nimara-ecommerce"
+    "url": "https://github.com/notsujansharma/gerbert-ecommerce"
   },
   "private": true,
   "packageManager": "pnpm@9.3.0",

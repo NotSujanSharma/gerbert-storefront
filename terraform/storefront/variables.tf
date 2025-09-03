@@ -31,7 +31,7 @@ variable "github_production_branch" {
 variable "vercel_project_name" {
   description = "Name of the project visible in Vercel. Must be unique within the team."
   type        = string
-  default     = "nimara-ecommerce"
+  default     = "gerbert-ecommerce"
   validation {
     condition     = can(regex("^[a-zA-Z0-9-]+$", var.vercel_project_name))
     error_message = "Project name must contain only alphanumeric characters and hyphens."
